@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+    <section class="section section-bg" id="call-to-action" style="background-image: url({% static 'assets/images/banner-image-1-1920x500.jpg' %})">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 offset-lg-1">
+                    <div class="cta-content">
+                        <br>
+                        <br>
+                        <h2>Easy <em>Checkout</em></h2>
+                        <p>Ut consectetur, metus sit amet aliquet placerat, enim est ultricies ligula</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <br>
+        <br>
+
+        <div style="float:right; width:300px; background:#efefef; padding:10px 20px; color:#333; border-bottom:4px solid #ed563b;">
+            <h3 style="color: #ed563b;">Your Order</h3>
+            <ul>
+                {% for item in cart %}
+                    <li style="margin:0; padding:0; font-size:14px;">{{ item.quantity }}x {{ item.product.name }} <span style="float: right;">₦{{ item.total_price }}</span></li>
+                {% endfor %}
+            </ul>
+            <p style="font-weight:bold; float:right; color: black;">Total: ₦{{ cart.get_total_price }}</p>
+        </div>
+
+        <form method="post" class="h-form">
+            <input type="text" name="name" maxlength="100" required id="id_name" placeholder="Name"><br>
+            <input type="email" name="email" maxlength="254" required id="id_email" placeholder="Email"><br>
+            <input type="text" name="phone_no" maxlength="20" required id="id_phone_no" placeholder="Phone Number"><br>
+            <input type="text" name="address" maxlength="250" required id="id_address" placeholder="Address"><br>
+            <input type="text" name="city" maxlength="100" required id="id_city" placeholder="City"><br>
+            <input type="text" name="zip_code" maxlength="20" required id="id_zip_code" placeholder="Zip Code"><br>
+            <input type="text" name="country" maxlength="100" required id="id_country" placeholder="Country"><br>
+
+            <input type="submit" value="Place order">
+            {% csrf_token %}
+        </form>
+        <br>
+        <br>
+    </div>
+{% endblock %}

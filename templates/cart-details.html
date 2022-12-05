@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Cart{% endblock %}
+
+{% block content %}
+    <!-- ***** Call to Action Start ***** -->
+    <section class="section section-bg" id="call-to-action" style="background-image: url({% static 'assets/images/banner-image-1-1920x500.jpg' %})">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 offset-lg-1">
+                    <div class="cta-content">
+                        <br>
+                        <br>
+                        <h2>Your <em>Shopping Cart</em></h2>
+                        <p>Ut consectetur, metus sit amet aliquet placerat, enim est ultricies ligula</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ***** Call to Action End ***** -->
+
+    <div class="container">
+        <br>
+        <br>
+
+        <!-- <div class="row"> -->
+            <table style="width:100%; border-spacing:0; border-collapse: collapse;" class="h-table">
+                <thead style="background-color: #ed563b; color: white; font-weight: bold;">
+                    <tr>
+                        <th>Image</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Remove</th>
+                        <th>Unit price</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart %}
+                        {% with product=item.product %}
+                            <tr style="background-color: #efefef;">
+                                <td>
+                                    <a href="{{ product.get_absolute_url }}"><img style="width: 180px;" src="{{ product.image.url }}" alt=""></a>
+                                </td>
+                                <td>{{ product.name }}</td>
+                                <td>
+                                    <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                                        {{ item.update_quantity_form.quantity }}
+                                        {{ item.update_quantity_form.override }}
+                                        <input style="background-color: #ed563b; color: white; border: 0; border-radius: 4px; padding:10px 12px;" type="submit" value="Update">
+                                        {% csrf_token %}
+                                    </form>
+                                </td>
+                                <td>
+                                    <form action="{% url 'cart:cart_remove' product.id %}" method="post">
+                                        <input style="background-color: #ed563b; color: white; border: 0; border-radius: 4px; padding:10px 12px;" type="submit" value="Remove">
+                                        {% csrf_token %}
+                                    </form>
+                                </td>
+                                <td style="text-align: right;">₦{{ item.price }}</td>
+                                <td style="text-align: right;">₦{{ item.total_price }}</td>
+                            </tr>
+                        {% endwith %}
+                    {% endfor %}
+                    <tr style="background-color: #ed563b; color: white; font-weight: bold;">
+                        <td>Total</td>
+                        <td colspan="4"></td>
+                        <td style=" text-align: right;">₦{{ cart.get_total_price }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        <!-- </div> -->
+        <br>
+        
+        <div style="text-align: right; font-size: larger;">
+            <a href="{% url 'store:product_list' %}" style="background-color: #efefef; color: black; border: 0; border-radius: 4px; padding:10px 12px;">Continue shopping</a>
+            <a href="{% url 'orders:order_create' %}" style="background-color: #ed563b; color: white; border: 0; border-radius: 4px; padding:10px 12px;">Checkout</a>
+        </div>
+        <br>
+    </div>
+{% endblock %}
