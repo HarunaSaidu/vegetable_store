@@ -19,9 +19,6 @@ commonmark==0.9.1
 cryptography==3.4.8
 cycler==0.11.0
 # dbus-python==1.2.18
-
-gobject-introspection==1.0
-
 decorator==4.4.2
 defusedxml==0.7.1
 distro==1.7.0
